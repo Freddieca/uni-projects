@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Sync Guide: Laptop & Desktop</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
+        code { background-color: #f4f4f4; padding: 2px 4px; }
+        pre { background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; }
+        h2 { color: #333; }
+    </style>
+</head>
+<body>
+
+    <h1>Guide to Sync Files Between Laptop and Desktop Using Git</h1>
+
+    <h2>1. Install Git</h2>
+    <p>Make sure Git is installed on both your laptop and desktop. <a href="https://git-scm.com/">Download Git</a>.</p>
+
+    <h2>2. Create a Remote Repository</h2>
+    <ul>
+        <li>On GitHub, GitLab, or another Git hosting service, create a new repository (public or private).</li>
+        <li>Copy the repository URL (e.g., <code>https://github.com/username/repository.git</code>).</li>
+    </ul>
+
+    <h2>3. Initialize the Repository Locally (on your laptop)</h2>
+    <ol>
+        <li>Open your terminal.</li>
+        <li>Navigate to the project folder and initialize Git:
+            <pre><code>cd /path/to/your/project
+git init</code></pre>
+        </li>
+        <li>Link it to the remote repository:
+            <pre><code>git remote add origin https://github.com/username/repository.git</code></pre>
+        </li>
+    </ol>
+
+    <h2>4. Add, Commit, and Push Changes</h2>
+    <ul>
+        <li>Stage and commit your changes:
+            <pre><code>git add .
+git commit -m "Initial commit"</code></pre>
+        </li>
+        <li>Push to the remote repository:
+            <pre><code>git push -u origin main</code>  <!-- or 'master' depending on default branch --></pre>
+        </li>
+    </ul>
+
+    <h2>5. Clone on Your Desktop</h2>
+    <ul>
+        <li>On your desktop, open the terminal and navigate to where you want the project to be.</li>
+        <li>Clone the repository:
+            <pre><code>git clone https://github.com/username/repository.git</code></pre>
+        </li>
+    </ul>
+
+    <h2>6. Syncing Changes Between Laptop and Desktop</h2>
+    <h3>Push Changes from Laptop</h3>
+    <p>When you make updates, add, commit, and push:</p>
+    <pre><code>git add .
+git commit -m "Describe your changes"
+git push</code></pre>
+
+    <h3>Pull Changes on Desktop</h3>
+    <p>When you switch to your desktop, fetch the latest changes:</p>
+    <pre><code>git pull</code></pre>
+
+    <h2>7. Repeat for Each Device</h2>
+    <p>On each device:</p>
+    <ul>
+        <li>Use <code>git add</code>, <code>commit</code>, and <code>push</code> to update the repository.</li>
+        <li>On the other device, use <code>git pull</code> to bring in the latest updates.</li>
+    </ul>
+
+    <h2>Summary Commands</h2>
+    <pre><code># On laptop/desktop when making changes
+git add .
+git commit -m "Your message"
+git push
+
+# On the other device
+git pull</code></pre>
+
+    <p>This setup ensures smooth syncing of project files across devices.</p>
+
+</body>
+</html>
