@@ -33,7 +33,7 @@ $userRole = getUserRole($userId);
 if ($userRole === 'admin') {
     header("Location: pages/admin.html");
 } else {
-    header("Location: pages/home.html");
+    header("Location: pages/home.php");
 }
 exit();
 ?>

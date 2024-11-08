@@ -114,7 +114,7 @@ $conn->close();
         <h1>Fred's Free Speech</h1>
         <h3>Profile</h3>
         <nav class="navbar">
-            <a href="home.html">Home</a> |
+            <a href="home.php">Home</a> |
             <a href="profile.php">Profile</a> |
             <a href="messages.html">Messages</a> |
             <a href="report.html">Report</a> |

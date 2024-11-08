@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (hash('sha512', $password) === $hashed_password) {
             // Password is correct, log the user in
             $_SESSION['username'] = $username; // Store username in session
-            header("Location: ../pages/home.html?success=1"); // Redirect to home with success flag
+            header("Location: ../pages/home.php?success=1"); // Redirect to home with success flag
             exit();
         } else {
             // Password is incorrect

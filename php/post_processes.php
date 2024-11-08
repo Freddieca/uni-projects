@@ -10,7 +10,7 @@ if (isset($_SESSION['user_id'])) {
     $stmt->bind_param("is", $user_id, $content);
     $stmt->execute();
 
-    header("Location: ../pages/home.html");
+    header("Location: ../pages/home.php");
 } else {
     echo "You must be logged in to post.";
 }

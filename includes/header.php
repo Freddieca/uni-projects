@@ -1,6 +1,6 @@
 <header>
     <nav class="navbar">
-        <a href="home.html">Home</a> |
+        <a href="home.php">Home</a> |
         <a href="profile.html">Profile</a> |
         <a href="messages.html">Messages</a> |
         <a href="report.html">Report</a> |
