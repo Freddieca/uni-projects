@@ -69,37 +69,35 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - Social Media</title>
+    <title>Profile - Fred's Free Speech</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <style>
         /* Initially hide the bio edit form */
-        #bio-edit-form {
+        #bio-edit-form, #new-post-form {
             display: none;
         }
-        /* Edit Bio Button (with arrow) */
-        #edit-bio-btn {
+        #edit-bio-btn, #create-post-btn {
             background-color: navy;
             color: white;
-            padding: 5px 10px; /* Adjust padding to fit text size */
+            padding: 5px 10px;
             border: none;
             cursor: pointer;
             border-radius: 5px;
             font-size: 14px;
-            display: inline-block; /* Ensure button only takes up the width it needs */
         }
         /* Arrow styling */
-        #edit-bio-btn::after {
-            content: " ▼"; /* Downward arrow */
+        #edit-bio-btn::after, #create-post-btn::after {
+            content: " ▼";
             font-size: 10px;
         }
-        /* Add some space when editing bio */
-        #bio-edit-form textarea {
+        /* Styling for textarea and buttons */
+        #bio-edit-form textarea, #new-post-form textarea {
             width: 100%;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
         }
-        #bio-edit-form button {
+        #bio-edit-form button, #new-post-form button {
             margin-top: 10px;
             background-color: #4CAF50;
             color: white;
@@ -133,38 +131,94 @@ $conn->close();
         <div id="bio-edit-form">
             <h3>Edit Bio</h3>
             <form action="profile.php" method="POST">
-                <textarea name="bio" rows="4" cols="50"><?php echo htmlspecialchars($bio); ?></textarea><br>
+                <textarea name="bio" rows="4"><?php echo htmlspecialchars($bio); ?></textarea><br>
                 <button type="submit">Update Bio</button>
             </form>
         </div>
 
-        <h3>Posts</h3>
-        <div class="post">
-            <p>This is a sample post.</p>
+        <!-- Create New Post Section -->
+        <button id="create-post-btn" onclick="togglePostForm()">Create New Post</button>
+        <div id="new-post-form">
+            <h3>Create New Post</h3>
+            <form id="submit-post-form" enctype="multipart/form-data">
+                <label for="post-title">Title:</label>
+                <input type="text" id="post-title" name="title" required><br>
+
+                <label for="post-description">Description:</label>
+                <textarea id="post-description" name="description" rows="4" required></textarea><br>
+
+                <label for="post-image">Image:</label>
+                <input type="file" id="post-image" name="image" accept="image/*"><br>
+
+                <button type="button" onclick="submitPost()">Submit Post</button>
+            </form>
         </div>
+
+        <!-- Display User's Posts -->
+        <h3>Your Posts</h3>
+        <div id="user-posts"></div>
     </main>
     <footer>
-        <p>&copy; 2024 Social Media Platform</p>
+        <p>&copy; 2024 Fred's Free Speech Platform</p>
     </footer>
 
     <script>
         // Function to toggle the visibility of the edit bio form
         function toggleEditForm() {
             var form = document.getElementById('bio-edit-form');
-            if (form.style.display === 'none' || form.style.display === '') {
-                form.style.display = 'block';
-            } else {
-                form.style.display = 'none';
-            }
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
         }
 
-        // Display alert message only if bio was updated successfully
+        // Function to toggle the visibility of the new post form
+        function togglePostForm() {
+            var form = document.getElementById('new-post-form');
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+        }
+
+        // AJAX request to submit the new post
+        function submitPost() {
+            var formData = new FormData(document.getElementById("submit-post-form"));
+
+            fetch("post_processes.php", {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Post created successfully!");
+                    document.getElementById("submit-post-form").reset();
+                    togglePostForm();
+                    loadUserPosts(); // Reload posts
+                } else {
+                    alert("Failed to create post: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred while creating the post.");
+            });
+        }
+
+        // Load user's posts via AJAX
+        function loadUserPosts() {
+            fetch("get_user_posts.php")
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("user-posts").innerHTML = data;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        }
+
+        // Load posts when page loads
+        document.addEventListener("DOMContentLoaded", loadUserPosts);
+
+        // Display alert if bio was updated
         <?php if (isset($_SESSION['bio_updated']) && $_SESSION['bio_updated'] === true): ?>
             alert("Bio updated successfully!");
-            // Clear the session flag after showing the alert
-            <?php 
-                unset($_SESSION['bio_updated']); 
-            ?>
+            <?php unset($_SESSION['bio_updated']); ?>
         <?php endif; ?>
     </script>
 </body>

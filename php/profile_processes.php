@@ -1,15 +1,15 @@
 <?php
 session_start();
-include '../includes/db_connection.php';
+include('../includes/db_connection.php');
 
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-    $bio = $_POST['bio'];
-
-    $stmt = $conn->prepare("UPDATE users SET bio = ? WHERE id = ?");
-    $stmt->bind_param("si", $bio, $user_id);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_bio') {
+    $bio = trim($_POST['bio']);
+    $username = $_SESSION['username'];
+    $sql = "UPDATE users SET bio = ? WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $bio, $username);
     $stmt->execute();
-
-    header("Location: ../pages/profile.php");
+    $stmt->close();
 }
+$conn->close();
 ?>
